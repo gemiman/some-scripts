@@ -27,6 +27,28 @@ echo ""
 echo ">>> 清理日志文件（限制50MB）..."
 sudo journalctl --vacuum-size=50M
 
+# yay/paru 更新
+if command -v yay &>/dev/null; then
+    echo ""
+    echo ">>> 正在通过 yay 更新 AUR 包..."
+    yay -Syu
+elif command -v paru &>/dev/null; then
+    echo ""
+    echo ">>> 正在通过 paru 更新 AUR 包..."
+    paru -Syu
+fi
+
+# flatpak 更新
+if command -v flatpak &>/dev/null; then
+    echo ""
+    echo ">>> 正在更新 flatpak 应用..."
+    flatpak update -y
+
+    echo ""
+    echo ">>> 正在清理 flatpak 未使用的运行时..."
+    flatpak remove --unused -y
+fi
+
 echo ""
 echo "=========================================="
 echo "  清理完成！"
