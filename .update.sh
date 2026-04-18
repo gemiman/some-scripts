@@ -9,8 +9,8 @@ echo "升级已安装的软件包..."
 sudo apt upgrade -y
 
 # 升级可用的分发版本（可选）
-# echo "升级到新的发行版..."
-# sudo apt dist-upgrade -y
+echo "升级到新的发行版..."
+sudo apt dist-upgrade -y
 
 # 升级rust
 rustup update
