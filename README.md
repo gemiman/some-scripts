@@ -37,3 +37,29 @@
 - **让有道域名走直连**：在 Clash 规则里把 `note.youdao.com`、`*.youdao.com`、`*.netease.com` 设为 `DIRECT`。
 - 或者临时关闭 Clash（TUN）后再启动客户端。
 - 重启客户端并重新登录。
+
+## 故障排查：1Panel 装好后 `docker-compose` 命令不可用
+
+### 现象
+
+用 1Panel 装好 Docker 环境后，`docker-compose` 报「未找到命令」，但 `docker compose` 正常。
+
+### 根因
+
+1Panel 默认安装的是 **Docker Compose v2 插件**，位于 `/usr/libexec/docker/cli-plugins/docker-compose`，对应的命令是 `docker compose`（空格）。
+老的 `docker-compose`（连字符）是 v1 时代的独立二进制，默认不再安装，所以直接敲会找不到命令。
+
+### 解决
+
+- **直接改用新命令**（推荐）：`docker compose up -d`、`docker compose ps`、`docker compose logs -f`。
+- **做软链接**，保留 `docker-compose` 的敲法：
+
+  ```bash
+  sudo ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/local/bin/docker-compose
+  ```
+
+- **加别名**（只影响当前 shell，fish 用户写到 `~/.config/fish/config.fish`）：
+
+  ```bash
+  alias docker-compose='docker compose'
+  ```
